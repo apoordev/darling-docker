@@ -1,46 +1,20 @@
-FROM ubuntu:hirsute
+FROM debian:12
 
-ARG DARLING_DEB
+RUN sudo apt install cmake clang bison flex xz-utils libfuse-dev libudev-dev pkg-config libc6-dev-i386 libcap2-bin git git-lfs libglu1-mesa-dev libcairo2-dev libgl1-mesa-dev libtiff5-dev libfreetype6-dev libxml2-dev libegl1-mesa-dev libfontconfig1-dev libbsd-dev libxrandr-dev libxcursor-dev libgif-dev libpulse-dev libavformat-dev libavcodec-dev libswresample-dev libdbus-1-dev libxkbfile-dev libssl-dev llvm-dev
 
-ADD darling-dkms_1.0_all.deb /root
-RUN dpkg -i /root/darling-dkms_1.0_all.deb && rm /root/darling-dkms_1.0_all.deb
+RUN git lfs install
 
-RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
-	libcairo2 libcairo2:i386 \
-	libgl1 libgl1:i386 \
-	libglu1 libglu1:i386 \
-	libtiff5 libtiff5:i386 \
-	libfreetype6 libfreetype6:i386 \
-	libegl1-mesa libegl1-mesa:i386 \
-	libfontconfig1 libfontconfig1:i386 \
-	libxrandr2 libxrandr2:i386 \
-	libxcursor1 libxcursor1:i386 \
-	libgif7 libgif7:i386 \
-	libpulse0 libpulse0:i386 \
-	libavformat58 libavformat58:i386 \
-	libavcodec58 libavcodec58:i386 \
-	libavresample4 libavresample4:i386 \
-	libdbus-1-3 libdbus-1-3:i386 \
-	libxkbfile1 libxkbfile1:i386 \
-	libc6-i386 \
-	fuse -o APT::Immediate-Configure=0 \
-	wget && apt-get clean -y
+RUN	cd /tmp && GIT_CLONE_PROTECTION_ACTIVE=false git clone --recursive https://github.com/darlinghq/darling.git && cd darling
+RUN mkdir build && cd build
+RUN cmake ..
+RUN make
+RUN sudo make install
 
-RUN	wget -O darling.deb ${DARLING_DEB} && \
-	dpkg -i darling.deb && rm -f darling .deb
-
-RUN mkdir -p /usr/libexec/darling/Users/macuser /home/macuser \
-	/usr/libexec/darling/Users/Shared \
-	/usr/libexec/darling/Volumes/SystemRoot \
-	/usr/libexec/darling/var/tmp \
-	/usr/libexec/darling/var/run
-RUN cd /usr/libexec/darling/Users/macuser && ln -s /Volumes/SystemRoot/home/macuser LinuxHome
+RUN rm -rf /tmp/darling
 
 ENV HOME=/Users/macuser
-
 ADD bootstrap /
 ADD shell /usr/bin
 RUN rm -rf /usr/libexec/darling/proc && cd /usr/libexec/darling && ln -s /Volumes/SystemRoot/proc
 
 ENTRYPOINT ["/bootstrap"]
-
