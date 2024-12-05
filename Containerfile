@@ -16,6 +16,6 @@ RUN cd / && rm -rf /tmp/darling
 ENV HOME=/Users/macuser
 ADD bootstrap /
 ADD shell /usr/bin
-RUN rm -rf /usr/libexec/darling/proc && cd /usr/libexec/darling && ln -s /Volumes/SystemRoot/proc
+#WORKDIR /usr/libexec/darling
 
 ENTRYPOINT ["/bootstrap"]
