@@ -8,7 +8,7 @@ RUN GIT_CLONE_PROTECTION_ACTIVE=false git clone --recursive https://github.com/d
 RUN mkdir /tmp/darling/build
 WORKDIR /tmp/darling/build
 RUN cmake ..
-RUN make
+RUN make -j$(nproc)
 RUN make install
 
 RUN cd / && rm -rf /tmp/darling
