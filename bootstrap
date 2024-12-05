@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+export DYLD_ROOT_PATH=/usr/local/libexec/darling
+
+exec "${DYLD_ROOT_PATH}/usr/libexec/darling/vchroot" "${DYLD_ROOT_PATH}" /sbin/launchd
