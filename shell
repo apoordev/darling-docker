@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/local/libexec/darling/bin/bash "$@"
+exec DPREFIX=/root/.darling darling shell "$@"

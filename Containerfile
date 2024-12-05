@@ -13,6 +13,5 @@ RUN make install
 
 WORKDIR /
 RUN rm -rf /tmp/darling
-
 ENV HOME=/Users/macuser
 ADD shell /usr/bin
