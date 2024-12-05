@@ -14,8 +14,5 @@ RUN make install
 RUN cd / && rm -rf /tmp/darling
 
 ENV HOME=/Users/macuser
-ADD bootstrap /
 ADD shell /usr/bin
 #WORKDIR /usr/libexec/darling
-
-ENTRYPOINT ["/bootstrap"]

@@ -9,19 +9,19 @@ Running desktop software under Docker has inherent challenges. It is up to you t
 Starting a container:
 
 ```
-docker run -d --name darling1 docker.pkg.github.com/darlinghq/darling/darling:latest
+docker run -d --name darling ghcr.io/darlinghq/darling-docker:master
 ```
 
-Now you have a container named `darling1` with `launchd` and various daemons running. You can drop into a shell:
+Now you have a container named `darling` with `launchd` and various daemons running. You can drop into a shell:
 
 ```
-docker exec -ti darling1 shell
+docker exec -ti darling shell
 ```
 
 You can run various commands:
 
 ```
-docker exec darling1 shell -c 'uname -a'
+docker exec darling shell -c 'uname -a'
 ```
 
 ## Advanced
