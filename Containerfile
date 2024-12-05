@@ -11,8 +11,8 @@ RUN cmake ..
 RUN make -j$(nproc)
 RUN make install
 
-RUN cd / && rm -rf /tmp/darling
+WORKDIR /
+RUN rm -rf /tmp/darling
 
 ENV HOME=/Users/macuser
 ADD shell /usr/bin
-#WORKDIR /usr/libexec/darling
